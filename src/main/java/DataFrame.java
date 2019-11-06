@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  * 
  * Note that the order of the column is fixed.
  * 
- * @author Paul Bouman
+ * @author Detelin Radev
  *
  * @param <E> the type the entry values stored in this data vector
  */
@@ -30,28 +30,28 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * Defauft number of characters to use for the width of a single column when
 	 * formatting a DataFrame or DataVector object.
 	 */
-	public static int DEFAULT_FORMAT_WIDTH = 12;
+	int DEFAULT_FORMAT_WIDTH = 12;
 
 	/**
 	 * The number of rows stored in this matrix
 	 * 
 	 * @return the number of rows
 	 */
-	public int getRowCount();
+	int getRowCount();
 
 	/**
 	 * The number of columns stored in this matrix
 	 * 
 	 * @return the number of columns
 	 */
-	public int getColumnCount();
+	int getColumnCount();
 
 	/**
 	 * The names of the columns stored in this matrix
 	 * 
 	 * @return a list of column names
 	 */
-	public List<String> getColumnNames();
+	List<String> getColumnNames();
 
 	/**
 	 * Sets a value to a particular entry in the data frame.
@@ -62,7 +62,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @throws IndexOutOfBoundsException if the row index is illegal
 	 * @throws IllegalArgumentException  if the column name is illegal
 	 */
-	public void setValue(int rowIndex, String colName, E value)
+	void setValue(int rowIndex, String colName, E value)
 			throws IndexOutOfBoundsException, IllegalArgumentException;
 
 	/**
@@ -74,7 +74,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @throws IndexOutOfBoundsException if the row index is illegal
 	 * @throws IllegalArgumentException  if the column name is illegal
 	 */
-	public E getValue(int rowIndex, String colName) throws IndexOutOfBoundsException, IllegalArgumentException;
+	E getValue(int rowIndex, String colName) throws IndexOutOfBoundsException, IllegalArgumentException;
 
 	/**
 	 * Produces a data vector for a particular row in the data frame
@@ -83,7 +83,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @return a data vector derived from a row in the data frame
 	 * @throws IndexOutOfBoundsException if the row index is illegal
 	 */
-	public DataVector<E> getRow(int rowIndex) throws IndexOutOfBoundsException;
+	DataVector<E> getRow(int rowIndex) throws IndexOutOfBoundsException;
 
 	/**
 	 * Produces a data vector for a particular column in the data frame
@@ -92,21 +92,21 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @return a data vector derived from a column in the data frame
 	 * @throws IllegalArgumentException if the column name is illegal
 	 */
-	public DataVector<E> getColumn(String colName) throws IllegalArgumentException;
+	DataVector<E> getColumn(String colName) throws IllegalArgumentException;
 
 	/**
 	 * Produces a list of data vectors derived from every row in the matrix
 	 * 
 	 * @return a list of data vectors
 	 */
-	public List<DataVector<E>> getRows();
+	List<DataVector<E>> getRows();
 
 	/**
 	 * Produces a list of data vectors derived from every column in the matrix
 	 * 
 	 * @return a list of data vectors
 	 */
-	public List<DataVector<E>> getColumns();
+	List<DataVector<E>> getColumns();
 
 	/**
 	 * Copies the values stored in this data frame into a larger data frame, and
@@ -118,7 +118,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @throws IllegalArgumentException the number of additional rows in negative or
 	 *                                  column names are duplicated
 	 */
-	public DataFrame<E> expand(int additionalRows, List<String> newCols) throws IllegalArgumentException;
+	DataFrame<E> expand(int additionalRows, List<String> newCols) throws IllegalArgumentException;
 
 	/**
 	 * Produces a smaller data frame that only contains the columns with names that
@@ -128,7 +128,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @return a smaller data frame
 	 * @throws IllegalArgumentException if one of the column names is illegal
 	 */
-	public DataFrame<E> project(Collection<String> retainColumns) throws IllegalArgumentException;
+	DataFrame<E> project(Collection<String> retainColumns) throws IllegalArgumentException;
 
 	/**
 	 * Produces a smaller data frame the only keeps the rows that are accepted by
@@ -138,7 +138,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 *                  maintained
 	 * @return a smaller data frame
 	 */
-	public DataFrame<E> select(Predicate<DataVector<E>> rowFilter);
+	DataFrame<E> select(Predicate<DataVector<E>> rowFilter);
 
 	/**
 	 * Produces a larger data frame with one additional column. The values stored in
@@ -149,7 +149,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @param function   the function to apply to each row
 	 * @return the resulting data frame
 	 */
-	public DataFrame<E> computeColumn(String columnName, Function<DataVector<E>, Double> function);
+	DataFrame<E> computeColumn(String columnName, Function<DataVector<E>, Double> function);
 
 	/**
 	 * Summarize each column using a given BinaryOperator using a reduce action. The
@@ -160,33 +160,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 *                        values in each column
 	 * @return a data vector with the result for each column
 	 */
-	public DataVector<E> summarize(String name, BinaryOperator<E> summaryFunction);
-
-	/**
-	 * Obtains an object that can be used to perform statistical analysis on this
-	 * data frame.
-	 * 
-	 * @return a DataFrameStatistics object linked to this data frame
-	 * @throws UnsupportedOperationException if no statistical functionalities are
-	 *                                       available
-	 */
-	public default DataFrameStatistics statistics() throws UnsupportedOperationException
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Obtains an object that can be used to perform visualization of the data in
-	 * this data frame.
-	 * 
-	 * @return a DataFramePlotting object linked to this data frame
-	 * @throws UnsupportedOperationException if no plotting functionalities are
-	 *                                       available
-	 */
-	public default DataFramePlotting plotting() throws UnsupportedOperationException
-	{
-		throw new UnsupportedOperationException();
-	}
+	DataVector<E> summarize(String name, BinaryOperator<E> summaryFunction);
 
 	/**
 	 * Convenience method that expands the data frame with passing an explicit list
@@ -197,7 +171,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @return an exapneded data frame
 	 * @throws IllegalArgumentException if some of the row names clash
 	 */
-	public default DataFrame<E> expand(int additionalRows, String... newCols) throws IllegalArgumentException
+	default DataFrame<E> expand(int additionalRows, String... newCols) throws IllegalArgumentException
 	{
 		return expand(additionalRows, Arrays.asList(newCols));
 	}
@@ -210,40 +184,9 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @return a smaller data frame
 	 * @throws IllegalArgumentException if one of the column names is illegal
 	 */
-	public default DataFrame<E> project(String... retainCols) throws IllegalArgumentException
+	default DataFrame<E> project(String... retainColumns) throws IllegalArgumentException
 	{
-		return project(Arrays.asList(retainCols));
-	}
-
-	/**
-	 * Expands the data frame to have a number of additional rows
-	 * 
-	 * @param additionalRows the number of rows to add
-	 * @return a newly created expanded version of this data frame
-	 */
-	public default DataFrame<E> expandRows(int additionalRows)
-	{
-		if (additionalRows < 0)
-		{
-			throw new IllegalArgumentException("Number of rows should be positive");
-		}
-		return expand(additionalRows, Collections.emptyList());
-	}
-
-	/**
-	 * Expands the data frame to have additional columns
-	 * 
-	 * @param newCols the names of the new columns
-	 * @return a newly created expanded data frame
-	 */
-	public default DataFrame<E> expandColumns(List<String> newCols)
-	{
-		Set<String> uniqueNames = new HashSet<>(newCols);
-		if (uniqueNames.size() != newCols.size() || uniqueNames.removeAll(getColumnNames()))
-		{
-			throw new IllegalArgumentException("Duplicate columns detected");
-		}
-		return expand(0, newCols);
+		return project(Arrays.asList(retainColumns));
 	}
 
 	/**
@@ -256,7 +199,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 *         other data frame
 	 * @throws IllegalArgumentException if the number of rows do no match
 	 */
-	public default DataFrame<E> concat(DataFrame<E> other) throws IllegalArgumentException
+	default DataFrame<E> concat(DataFrame<E> other) throws IllegalArgumentException
 	{
 		if (getRowCount() != other.getRowCount())
 		{
@@ -277,7 +220,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * Prints the contents of this data frame to System.out using a default column
 	 * width
 	 */
-	public default void print()
+	default void print()
 	{
 		System.out.println(formatMatrix(DEFAULT_FORMAT_WIDTH));
 	}
@@ -291,7 +234,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	 * @param colWidth the number of character to use for a single column
 	 * @return a string representation of this data frame
 	 */
-	public default String formatMatrix(int colWidth)
+	default String formatMatrix(int colWidth)
 	{
 		String fmt = "%-" + colWidth + "." + colWidth + "s";
 		StringBuilder sb = new StringBuilder();
@@ -317,7 +260,7 @@ public interface DataFrame<E> extends Iterable<DataVector<E>>
 	}
 
 	@Override
-	public default Iterator<DataVector<E>> iterator()
+	default Iterator<DataVector<E>> iterator()
 	{
 		return getRows().iterator();
 	}

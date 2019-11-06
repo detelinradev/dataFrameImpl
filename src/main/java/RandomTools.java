@@ -18,10 +18,10 @@ import java.util.List;
  * It holds Real distribution variable what is used to create dependency with different distribution types
  * hold in the RealDistribution interface of Apache Commons Math API
  *
- * @author 507560sm Sergey Marchenko
+ * @author Detelin Radev
  *
  */
-public class RandomTools {
+class RandomTools {
     private RealDistribution realDistribution;
 
     /**
@@ -29,7 +29,7 @@ public class RandomTools {
      *
      * @param realDistribution dependency variable presenting interface in Apache common API
      */
-    public RandomTools(RealDistribution realDistribution) {
+    private RandomTools(RealDistribution realDistribution) {
         this.realDistribution = realDistribution;
     }
 
@@ -40,7 +40,7 @@ public class RandomTools {
      * @param i1 value for the upper bond
      * @return instance of the class with uniform real distribution implementation injected
      */
-    public static RandomTools uniform(double i, double i1) {
+    static RandomTools uniform(double i, double i1) {
         return new RandomTools(new UniformRealDistribution(i,i1));
     }
 
@@ -51,7 +51,7 @@ public class RandomTools {
      * @param i1 value for the standard deviation
      * @return instance of the class with normal real distribution implementation injected
      */
-    public static RandomTools gaussian(double i, double i1) {
+    static RandomTools gaussian(double i, double i1) {
         return new RandomTools(new NormalDistribution(i,i1));
     }
 
@@ -61,7 +61,7 @@ public class RandomTools {
      * @param i value for the given mean
      * @return instance of the class with exponential real distribution implementation injected
      */
-    public static RandomTools exponential(double i) {
+    static RandomTools exponential(double i) {
         return new RandomTools(new ExponentialDistribution(i));
     }
 
@@ -75,7 +75,7 @@ public class RandomTools {
      * @param asList list with the column names
      * @return data frame filled with sample data
      */
-    public DataFrame<Double> generate(long i, int rows, List<String> asList) {
+    DataFrame<Double> generate(long i, int rows, List<String> asList) {
         double [][] data = new double[rows][asList.size()];
         realDistribution.reseedRandomGenerator(i);
         for (int j = 0; j < rows; j++) {

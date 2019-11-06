@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  * It holds list with column names, two dimensional array with the data stored
  * in the data frame and map for transforming the column names in indices
  *
- * @author 507560sm Sergey Marchenko
+ * @author Detelin Radev
  *
  */
 public class DoubleDataFrame implements DataFrame<Double> {
@@ -30,7 +30,7 @@ public class DoubleDataFrame implements DataFrame<Double> {
      * @param columnNames list that holds the names of the columns of the data frame
      * @param data array that holds the data of the data frame
      */
-    public DoubleDataFrame(List<String> columnNames, double[][] data) {
+    DoubleDataFrame(List<String> columnNames, double[][] data) {
         this.columnNames = columnNames;
         this.data = data;
         this.map = new HashMap<>();

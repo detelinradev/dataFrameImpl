@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * The entries in this vector have names associated with them. For a vector
  * derived from a row in the data frame, these are typically the column names.
  * 
- * @author Paul Bouman
+ * @author Detelin Radev
  *
  * @param <E> the type the entry values stored in this data vector
  */
@@ -26,9 +26,9 @@ public interface DataVector<E>
 	 * is typically the column name. For vectors derived from a row, it is typically
 	 * "row_0", "row_1", etcetera.
 	 * 
-	 * @return
+	 * @return the name of the vector target object
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * Gives a list of the names of the entries in this vector. For a vector derived
@@ -37,7 +37,7 @@ public interface DataVector<E>
 	 * 
 	 * @return the names of the entries of this vector
 	 */
-	public List<String> getEntryNames();
+	List<String> getEntryNames();
 
 	/**
 	 * Getter for the value associated with an entry that has a given entry name.
@@ -45,21 +45,21 @@ public interface DataVector<E>
 	 * @param entryName the name of the entry to extract
 	 * @return the value of the entry with the entryName
 	 */
-	public E getValue(String entryName);
+	E getValue(String entryName);
 
 	/**
 	 * Obtain a list of all the values of the entries in this vector.
 	 * 
 	 * @return a list of all values
 	 */
-	public List<E> getValues();
+	List<E> getValues();
 
 	/**
 	 * Produces a map that contains key-value pairs of the entries in this vector.
 	 * 
 	 * @return a map with the entries of this vector as key-value pairs
 	 */
-	public Map<String, E> asMap();
+	Map<String, E> asMap();
 
 	/**
 	 * Formats the entries stored in this vector to a fixed with using the
@@ -70,7 +70,7 @@ public interface DataVector<E>
 	 * @param colWidth the width in number of characters for a single entry
 	 * @return a formatted string with the names and values of the entries
 	 */
-	public default String formatRow(int colWidth)
+	default String formatRow(int colWidth)
 	{
 		String fmt = "%-" + colWidth + "." + colWidth + "s";
 		List<Object> rowObjects = new ArrayList<>();
@@ -85,7 +85,7 @@ public interface DataVector<E>
 	 * Prints a formatted version of this vector to System.out using the default
 	 * width defined in the DataFrame interface.
 	 */
-	public default void print()
+	default void print()
 	{
 		System.out.println(formatRow(DataFrame.DEFAULT_FORMAT_WIDTH));
 	}

@@ -11,7 +11,7 @@ import java.util.*;
  * the vector should holds and boolean variable to differentiate what vector holds -
  * column or row
  *
- * @author 507560sm Sergey Marchenko
+ * @author Detelin Radev
  *
  */
 public class DoubleDataVector implements DataVector<Double> {
@@ -35,7 +35,7 @@ public class DoubleDataVector implements DataVector<Double> {
      * @param row the index for the row that data vector will hold
      *
      */
-    public DoubleDataVector(double[] data, List<String> names, int row) {
+    DoubleDataVector(double[] data, List<String> names, int row) {
         this.data = data;
         this.names = names;
         this.row = row;
@@ -55,7 +55,7 @@ public class DoubleDataVector implements DataVector<Double> {
      * @param col the name for the column that data vector will hold
      *
      */
-    public DoubleDataVector(List<Double> columnData, List<String> names, String col) {
+    DoubleDataVector(List<Double> columnData, List<String> names, String col) {
         this.columnData = columnData;
         this.names = names;
         this.col = col;

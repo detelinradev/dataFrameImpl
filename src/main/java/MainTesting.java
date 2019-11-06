@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -8,30 +9,13 @@ import java.util.function.Function;
 public class MainTesting
 {
 
-	public static DataFrame<Double> testDataFrame()
+	private static DataFrame<Double> testDataFrame()
 	{
 		List<String> colNames = Arrays.asList("year", "revenue", "costs");
 		double[][] data = { { 2015, 70021.35, 25071.12 },
 				            { 2016, 67008.12, 108632.80 },
 				            { 2017, 10632.83, 37816.8 },
 				            { 2018, 85216.33, 31863.73 } };
-		return new DoubleDataFrame(colNames, data);
-	}
-
-	public static DataFrame<Double> sampledDataFrame()
-	{
-		List<String> colNames;
-		colNames = Arrays.asList("uniform1", "uniform2", "normal1", "normal2", "exponential");
-		double[][] data = { { 15.20, 11.75,  0.487, 1.646, 1.006 },
-							{ 19.46, 12.82,  0.616, 0.865, 8.313 },
-							{ 11.69, 10.61, -0.148, 0.402, 3.811 },
-							{ 17.56, 10.62, -0.733, 0.925, 0.986 },
-							{ 14.18, 11.59, -0.641, 0.860, 0.270 },
-							{ 10.10, 15.87,  1.610, 1.480, 1.523 },
-							{ 16.91, 18.55, -1.121, 1.477, 1.951 },
-							{ 11.99, 13.24, 0.981, -0.243, 4.460 },
-							{ 14.69, 16.02, 0.200, -0.648, 1.733 },
-							{ 17.95, 13.25, 0.030, -1.493, 3.377 }};
 		return new DoubleDataFrame(colNames, data);
 	}
 
@@ -45,7 +29,7 @@ public class MainTesting
 		testRandom();
 	}
 
-	public static void dataFrameCore()
+	private static void dataFrameCore()
 	{
 		List<String> colNames = Arrays.asList("year", "revenue", "costs");
 		double[][] data = { { 2015, 70021.35, 25071.12 },
@@ -61,7 +45,7 @@ public class MainTesting
 		df.print();
 	}
 
-	public static void dataFrameCoreSpeed()
+	private static void dataFrameCoreSpeed()
 	{
 		int size = 10000;
 		double[][] data = new double[1][size];
@@ -82,7 +66,7 @@ public class MainTesting
 		System.out.println("Running time: " + time + "ms");
 	}
 
-	public static void dataVectors()
+	private static void dataVectors()
 	{
 		DataFrame<Double> df = testDataFrame();
 		DataVector<Double> row = df.getRow(1);
@@ -110,7 +94,7 @@ public class MainTesting
 		}
 	}
 
-	public static void testRestructure()
+	private static void testRestructure()
 	{
 		DataFrame<Double> df = testDataFrame();
 		DataFrame<Double> bigger = df.expand(1, "profit", "loss");
@@ -129,7 +113,7 @@ public class MainTesting
 		System.out.println(!df.getValue(1, "costs").equals(0d));
 	}
 
-	public static void testAnalysis()
+	private static void testAnalysis()
 	{
 		DataFrame<Double> df = testDataFrame();
 		Function<DataVector<Double>, Double> profitFunction;
@@ -144,7 +128,7 @@ public class MainTesting
 		df2.summarize("min", Math::min).print();
 	}
 
-	public static void testRandom()
+	private static void testRandom()
 	{
 		int rows = 10;
 		RandomTools rt = RandomTools.uniform(10, 20);
@@ -153,7 +137,7 @@ public class MainTesting
 		rt = RandomTools.gaussian(0, 1);
 		df = df.concat(rt.generate(54321, rows, Arrays.asList("normal1", "normal2")));
 		rt = RandomTools.exponential(5);
-		df = df.concat(rt.generate(1337, rows, Arrays.asList("exponential")));
+		df = df.concat(rt.generate(1337, rows, Collections.singletonList("exponential")));
 		df.print();
 	}
 }
